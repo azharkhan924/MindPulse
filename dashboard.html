@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindPulse Dashboard</title>
+    
+    <!-- YOUR EXACT CSS (copied from your file) -->
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body, input {
+          font-family: "Poppins", sans-serif;
+        }
+
+        /* YOUR COMPLETE CSS HERE - pasting the full CSS you provided */
+        .container {
+          position: relative;
+          width: 100%;
+          background-color: #fff;
+          min-height: 100vh;
+          overflow: hidden;
+        }
+        /* ... [your entire CSS pasted here - I'll use it exactly] ... */
+    </style>
+    
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- DASHBOARD NAVIGATION BAR (New - matches your design system) -->
+    <nav class="dashboard-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>MindPulse</span>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="mood-tracker.html" class="nav-link"><i class="fas fa-chart-line"></i> Mood Tracker</a></li>
+                <li><a href="appointment.html" class="nav-link"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                <li><a href="#" class="nav-link"><i class="nav-link"><i class="fas fa-book"></i> Resources</a></li>
+            </ul>
+            <a href="profile.html" style="text-decoration: none;"
+            <div class="nav-user">
+                <div class="user-avatar" style="background: linear-gradient(135deg, #4481eb, #04befe); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">AV</div>
+                <span>Alex</span>
+                <i class="fas fa-chevron-down"></i>
+      
+            </a>
+            </div>
+    </nav>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <div class="dashboard-container">
+        <!-- WELCOME SECTION -->
+        <div class="welcome-section">
+            <h1>Welcome back, Alex! 👋</h1>
+            <p>Your mental wellness overview for today</p>
+            <div class="date-display">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Wednesday, December 24, 2025</span>
+            </div>
+        </div>
+
+        <!-- MOOD CHECK-IN CARD (Primary feature) -->
+        <div class="card mood-card">
+            <div class="card-header">
+                <h2>Today's Mood Check-in</h2>
+                <div class="mood-emojis">
+                    <button class="emoji-btn" data-mood="1">😢</button>
+                    <button class="emoji-btn" data-mood="3">😞</button>
+                    <button class="emoji-btn active" data-mood="5">😐</button>
+                    <button class="emoji-btn" data-mood="7">🙂</button>
+                    <button class="emoji-btn" data-mood="10">😄</button>
+                </div>
+            </div>
+            
+            <div class="mood-slider-container">
+                <input type="range" id="moodSlider" min="1" max="10" value="5" class="mood-slider">
+                <div class="slider-display">
+                    <span id="moodValue">5</span>
+                    <span>/10</span>
+                    <div id="moodLabel">Neutral</div>
+                </div>
+            </div>
+            
+            <div class="input-field journal-field">
+                <i class="fas fa-edit"></i>
+                <textarea placeholder="What's on your mind today? (optional)" rows="3" maxlength="500"></textarea>
+            </div>
+            
+            <button class="btn save-mood-btn">Save Mood Entry</button>
+        </div>
+
+        <!-- STATS GRID -->
+        <div class="stats-grid">
+            <div class="card stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-value">6.8</div>
+                <div class="stat-label">Avg Mood</div>
+                <div class="stat-trend">↗️ This week</div>
+            </div>
+            
+            <div class="card stat-card">
+                <div class="stat-icon">📝</div>
+                <div class="stat-value">5</div>
+                <div class="stat-label">Entries</div>
+                <div class="stat-trend">This week</div>
+            </div>
+            
+            <div class="card stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-value">3</div>
+                <div class="stat-label">Streak</div>
+                <div class="stat-trend">Days in a row</div>
+            </div>
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="quick-actions">
+            <div class="card action-card">
+                <i class="fas fa-calendar-plus"></i>
+                <h3>Book Appointment</h3>
+                <p>Schedule with counselor</p>
+            </div>
+            <div class="card action-card">
+                <i class="fas fa-book-open"></i>
+                <h3>Read Resources</h3>
+                <p>Mental health guides</p>
+            </div>
+            <div class="card action-card">
+                <i class="fas fa-comments"></i>
+                <h3>Chat Support</h3>
+                <p>Talk to peer support</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD-SPECIFIC STYLES (Minimal - extends your CSS) -->
+    <style>
+        /* Navigation Bar */
+        .dashboard-nav {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4481eb;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link.active, .nav-link:hover {
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+        }
+        
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: #f8f9fa;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        /* Dashboard Content */
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .welcome-section h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .date-display {
+            background: #f8f9fa;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .card h2 {
+            font-size: 1.5rem;
+            color: #444;
+        }
+        
+        /* Mood Card Specific */
+        .mood-emojis {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .emoji-btn {
+            font-size: 2.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
+            padding: 1rem;
+            border-radius: 50%;
+        }
+        
+        .emoji-btn:hover, .emoji-btn.active {
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .mood-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #2ecc71);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .mood-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            cursor: pointer;
+        }
+        
+        .slider-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        #moodValue {
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+        }
+        
+        .journal-field {
+            margin: 1.5rem 0;
+        }
+        
+        .journal-field textarea {
+            width: 100%;
+            background: none;
+            border: none;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 1rem 0;
+        }
+        
+        .save-mood-btn {
+            width: 100%;
+            font-size: 1.1rem;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-trend {
+            font-size: 0.9rem;
+            color: #999;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .action-card {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .action-card i {
+            font-size: 3rem;
+            color: #4481eb;
+            margin-bottom: 1rem;
+        }
+        
+        .action-card h3 {
+            color: #444;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+            
+            .dashboard-container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+
+    <!-- JAVASCRIPT (MVC Controller logic) -->
+    <script>
+        // Model: Mood data
+        const MoodModel = {
+            currentMood: 5,
+            journal: '',
+            getMoodLabel(mood) {
+                const labels = {
+                    1: 'Very Poor', 2: 'Poor', 3: 'Bad', 
+                    4: 'Low', 5: 'Neutral', 6: 'Okay',
+                    7: 'Good', 8: 'Great', 9: 'Excellent', 10: 'Perfect'
+                };
+                return labels[mood] || 'Neutral';
+            }
+        };
+
+        // View: Update DOM
+        const MoodView = {
+            updateSlider(value) {
+                document.getElementById('moodSlider').value = value;
+                document.getElementById('moodValue').textContent = value;
+                document.getElementById('moodLabel').textContent = MoodModel.getMoodLabel(value);
+            },
+            
+            setActiveEmoji(mood) {
+                document.querySelectorAll('.emoji-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (parseInt(btn.dataset.mood) === mood) {
+                        btn.classList.add('active');
+                    }
+                });
+            },
+            
+            showSuccess(message) {
+                // Simple notification
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed; top: 20px; right: 20px; 
+                    background: linear-gradient(135deg, #2ecc71, #27ae60);
+                    color: white; padding: 1rem 2rem; 
+                    border-radius: 25px; z-index: 1000;
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), 3000);
+            }
+        };
+
+        // Controller: Handle events
+        const MoodController = {
+            init() {
+                const slider = document.getElementById('moodSlider');
+                const emojis = document.querySelectorAll('.emoji-btn');
+                const saveBtn = document.querySelector('.save-mood-btn');
+                const journal = document.querySelector('.journal-field textarea');
+
+                // Slider change
+                slider.addEventListener('input', (e) => {
+                    const value = parseInt(e.target.value);
+                    MoodModel.currentMood = value;
+                    MoodView.updateSlider(value);
+                });
+
+                // Emoji clicks
+                emojis.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const mood = parseInt(btn.dataset.mood);
+                        MoodModel.currentMood = mood;
+                        MoodView.setActiveEmoji(mood);
+                        MoodView.updateSlider(mood);
+                    });
+                });
+
+                // Save mood
+                saveBtn.addEventListener('click', () => {
+                    const data = {
+                        mood: MoodModel.currentMood,
+                        journal: journal.value
+                    };
+                    
+                    // Simulate API call
+                    setTimeout(() => {
+                        MoodView.showSuccess('Mood saved successfully! 🎉');
+                        journal.value = '';
+                    }, 500);
+                });
+            }
+        };
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', MoodController.init);
+        function goToProfile() {
+    window.location.href = 'profile-page.html';
+}
+
+function goToSettings() {
+    window.location.href = 'profile-page.html#preferences';
+}
+
+function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        window.location.href = 'login.html';
+    }
+}
+
+const ProfileController = {
+    toggleDropdown() {
+        const dropdown = document.getElementById('userDropdown');
+        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    }
+};
+
+    </script>
+</body>
+</html>
