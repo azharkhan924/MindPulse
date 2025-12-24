@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindPulse - Mood Tracker</title>
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* YOUR EXACT CSS - COMPLETE */
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body, input, textarea, select {
+          font-family: "Poppins", sans-serif;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4481eb;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-link {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+        }
+        
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            background: #f8f9fa;
+            cursor: pointer;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s;
+        }
+        
+        .nav-user:hover {
+            background: white;
+            border-color: #4481eb;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #ddd;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Welcome Header */
+        .welcome-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .welcome-header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .welcome-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+        
+        .filter-group {
+            position: relative;
+            min-width: 200px;
+        }
+        
+        .filter-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #acacac;
+            z-index: 2;
+        }
+        
+        .filter-input {
+            width: 100%;
+            height: 55px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 55px;
+            padding: 0 1rem 0 3rem;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .filter-input:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(68,129,235,0.2);
+        }
+
+        /* Filter Buttons */
+        .filter-btn {
+            height: 55px;
+            padding: 0 2rem;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+            border: none;
+            border-radius: 55px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(68,129,235,0.3);
+        }
+        
+        .clear-btn {
+            height: 55px;
+            padding: 0 2rem;
+            background: transparent;
+            color: #666;
+            border: 2px solid #ddd;
+            border-radius: 55px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .clear-btn:hover {
+            border-color: #4481eb;
+            color: #4481eb;
+            background: rgba(68,129,235,0.05);
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(68,129,235,0.3);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        /* Mood Table */
+        .table-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .mood-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .mood-table th {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: #444;
+            cursor: pointer;
+            border-bottom: 2px solid #e9ecef;
+            position: relative;
+        }
+        
+        .mood-table th:hover {
+            background: #e9ecef;
+        }
+        
+        .mood-table th i {
+            margin-left: 0.5rem;
+            opacity: 0.5;
+        }
+        
+        .mood-table td {
+            padding: 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .mood-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .mood-poor { background: #ffebee; color: #c62828; }
+        .mood-low { background: #fff3e0; color: #ef6c00; }
+        .mood-neutral { background: #f5f5f5; color: #666; }
+        .mood-good { background: #e8f5e8; color: #2e7d32; }
+        .mood-great { background: #c8e6c9; color: #1b5e20; }
+        
+        .journal-snippet {
+            color: #666;
+            max-width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-right: 0.5rem;
+        }
+        
+        .delete-btn {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .delete-btn:hover {
+            background: #ffcdd2;
+        }
+
+        /* Charts Section */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .chart-card h3 {
+            margin-bottom: 1.5rem;
+            color: #444;
+            font-size: 1.3rem;
+        }
+        
+        .chart-container {
+            height: 350px;
+        }
+
+        /* Export Buttons */
+        .export-section {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .export-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+            border: none;
+            border-radius: 55px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .export-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(68,129,235,0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .filter-group {
+                min-width: 100%;
+            }
+            
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-container {
+                padding: 0 1rem;
+            }
+            
+            .welcome-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>MindPulse</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#" class="nav-link active"><i class="fas fa-chart-line"></i> Mood Tracker</a></li>
+                <li><a href="appointment.html" class="nav-link"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                <li><a href="#" class="nav-link"><i class="fas fa-book"></i> Resources</a></li>
+            </ul>
+             <a href="profile.html" style="text-decoration: none;"
+            <div class="nav-user">
+                <div class="user-avatar" style="background: linear-gradient(135deg, #4481eb, #04befe); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">AV</div>
+                <span>Alex</span>
+                <i class="fas fa-chevron-down"></i>
+      
+            </a>
+            </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="welcome-header">
+            <h1>Your Mood History</h1>
+            <p>Track patterns, analyze trends, and understand your emotional journey</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <i class="fas fa-calendar-alt"></i>
+                <input type="date" class="filter-input" id="startDate">
+            </div>
+            <div class="filter-group">
+                <i class="fas fa-calendar-alt"></i>
+                <input type="date" class="filter-input" id="endDate">
+            </div>
+            <div class="filter-group">
+                <i class="fas fa-search"></i>
+                <input type="text" class="filter-input" id="journalSearch" placeholder="Search journal entries...">
+            </div>
+            <button class="filter-btn" onclick="MoodController.filterData()">Apply Filter</button>
+            <button class="clear-btn" onclick="MoodController.clearFilters()">Clear All</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCount">15</div>
+                <div class="stat-label">Total Entries</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgMood">6.8</div>
+                <div class="stat-label">Average Mood</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="bestMood">9</div>
+                <div class="stat-label">Best Day</div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <table class="mood-table">
+                <thead>
+                    <tr>
+                        <th onclick="MoodController.sortTable('date')">
+                            Date <i class="fas fa-sort" id="sortDate"></i>
+                        </th>
+                        <th onclick="MoodController.sortTable('mood')">
+                            Mood Level <i class="fas fa-sort" id="sortMood"></i>
+                        </th>
+                        <th onclick="MoodController.sortTable('journal')">
+                            Journal Entry <i class="fas fa-sort" id="sortJournal"></i>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="moodTable">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>📈 30-Day Mood Trend</h3>
+                <div class="chart-container">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>🎭 Emotion Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="emotionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export -->
+        <div class="export-section">
+            <button class="export-btn" onclick="MoodController.exportCSV()">
+                <i class="fas fa-download"></i> Export CSV
+            </button>
+            <button class="export-btn" onclick="MoodController.exportPDF()">
+                <i class="fas fa-file-pdf"></i> Export PDF
+            </button>
+            <button class="export-btn" onclick="MoodController.sendEmail()">
+                <i class="fas fa-envelope"></i> Email Report
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // SAMPLE DATA
+        const moodData = [
+            {id:1, date:'2025-12-24', mood:5, journal:'Holiday stress but family time helps', emotion:'neutral'},
+            {id:2, date:'2025-12-23', mood:6, journal:'Busy day at work', emotion:'neutral'},
+            {id:3, date:'2025-12-22', mood:8, journal:'Great day with friends', emotion:'happy'},
+            {id:4, date:'2025-12-21', mood:4, journal:'Stressed about exams', emotion:'anxious'},
+            {id:5, date:'2025-12-20', mood:7, journal:'Feeling good after workout', emotion:'happy'},
+            {id:6, date:'2025-12-19', mood:9, journal:'Best day ever!', emotion:'joyful'},
+            {id:7, date:'2025-12-18', mood:3, journal:'Really down today', emotion:'sad'},
+            {id:8, date:'2025-12-17', mood:6, journal:'Average day', emotion:'neutral'}
+        ];
+
+        let currentData = [...moodData];
+        let sortConfig = {key: null, direction: 'asc'};
+
+        // CONTROLLER FUNCTIONS
+        const MoodController = {
+            init() {
+                this.renderTable();
+                this.updateStats();
+                this.renderCharts();
+                this.attachListeners();
+            },
+
+            renderTable() {
+                const tbody = document.getElementById('moodTable');
+                tbody.innerHTML = currentData.map(item => `
+                    <tr>
+                        <td>${new Date(item.date).toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'})}</td>
+                        <td><span class="mood-badge ${this.getMoodClass(item.mood)}">${item.mood}</span></td>
+                        <td class="journal-snippet">${item.journal}</td>
+                        <td>
+                            <button class="action-btn delete-btn" onclick="MoodController.deleteEntry(${item.id})">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            },
+
+            getMoodClass(mood) {
+                if (mood >= 8) return 'mood-great';
+                if (mood >= 6) return 'mood-good';
+                if (mood >= 4) return 'mood-neutral';
+                return 'mood-poor';
+            },
+
+            updateStats() {
+                const total = currentData.length;
+                const avg = total ? (currentData.reduce((sum, item) => sum + item.mood, 0) / total).toFixed(1) : 0;
+                const best = total ? Math.max(...currentData.map(item => item.mood)) : 0;
+                
+                document.getElementById('totalCount').textContent = total;
+                document.getElementById('avgMood').textContent = avg;
+                document.getElementById('bestMood').textContent = best;
+            },
+
+            renderCharts() {
+                // Trend Chart
+                const trendCtx = document.getElementById('trendChart').getContext('2d');
+                new Chart(trendCtx, {
+                    type: 'line',
+                     {
+                        labels: currentData.slice(0, 10).map(item => new Date(item.date).toLocaleDateString()),
+                        datasets: [{
+                            label: 'Mood Level',
+                             currentData.slice(0, 10).map(item => item.mood),
+                            borderColor: '#4481eb',
+                            backgroundColor: 'rgba(68,129,235,0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { min: 1, max: 10, ticks: { stepSize: 1 } }
+                        }
+                    }
+                });
+
+                // Emotion Chart
+                const emotionCtx = document.getElementById('emotionChart').getContext('2d');
+                const emotions = currentData.reduce((acc, item) => {
+                    acc[item.emotion] = (acc[item.emotion] || 0) + 1;
+                    return acc;
+                }, {});
+                
+                new Chart(emotionCtx, {
+                    type: 'doughnut',
+                     {
+                        labels: Object.keys(emotions),
+                        datasets: [{
+                             Object.values(emotions),
+                            backgroundColor: ['#e74c3c', '#f39c12', '#2ecc71', '#3498db', '#9b59b6']
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+            },
+
+            filterData() {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                const search = document.getElementById('journalSearch').value.toLowerCase();
+                
+                currentData = moodData.filter(item => {
+                    const dateMatch = (!startDate || item.date >= startDate) && 
+                                    (!endDate || item.date <= endDate);
+                    const textMatch = !search || item.journal.toLowerCase().includes(search);
+                    return dateMatch && textMatch;
+                });
+                
+                this.renderTable();
+                this.updateStats();
+            },
+
+            clearFilters() {
+                document.getElementById('startDate').value = '';
+                document.getElementById('endDate').value = '';
+                document.getElementById('journalSearch').value = '';
+                currentData = [...moodData];
+                this.renderTable();
+                this.updateStats();
+            },
+
+            sortTable(key) {
+                if (sortConfig.key === key) {
+                    sortConfig.direction = sortConfig.direction === 'asc' ? 'desc' : 'asc';
+                } else {
+                    sortConfig.key = key;
+                    sortConfig.direction = 'asc';
+                }
+                
+                currentData.sort((a, b) => {
+                    let aVal = a[key];
+                    let bVal = b[key];
+                    
+                    if (key === 'date') {
+                        aVal = new Date(aVal).getTime();
+                        bVal = new Date(bVal).getTime();
+                    }
+                    
+                    if (sortConfig.direction === 'asc') {
+                        return aVal > bVal ? 1 : -1;
+                    } else {
+                        return aVal < bVal ? 1 : -1;
+                    }
+                });
+                
+                this.renderTable();
+            },
+
+            deleteEntry(id) {
+                if (confirm('Delete this mood entry?')) {
+                    currentData = currentData.filter(item => item.id !== id);
+                    moodData = moodData.filter(item => item.id !== id);
+                    this.renderTable();
+                    this.updateStats();
+                }
+            },
+
+            exportCSV() {
+                const csv = ['Date,Mood,Journal,Emotion\n'].concat(
+                    currentData.map(item => 
+                        `"${item.date}",${item.mood},"${item.journal.replace(/"/g, '""')}",${item.emotion}`
+                    )
+                ).join('\n');
+                
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'mood-tracker-' + new Date().toISOString().split('T')[0] + '.csv';
+                a.click();
+            },
+
+            exportPDF() {
+                alert('PDF export ready for servlet integration!');
+            },
+
+            sendEmail() {
+                alert('Email report ready for servlet integration!');
+            },
+
+            attachListeners() {
+                document.getElementById('journalSearch').addEventListener('input', debounce(this.filterData.bind(this), 300));
+            }
+        };
+
+        // Utility
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            MoodController.init();
+        });
+    </script>
+</body>
+</html>
