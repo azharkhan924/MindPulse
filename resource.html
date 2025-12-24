@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindPulse - Resources</title>
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, input, textarea, select { font-family: "Poppins", sans-serif; }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4481eb;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+        }
+        
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            background: #f8f9fa;
+            cursor: pointer;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .page-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            background: white;
+            border-radius: 20px;
+            padding: 0.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            min-width: 120px;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+        }
+
+        /* Search Bar */
+        .search-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            height: 55px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 55px;
+            padding: 0 2.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(68,129,235,0.2);
+        }
+
+        /* Resources Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .resource-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        
+        .resource-image {
+            height: 180px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .resource-content {
+            padding: 1.5rem;
+        }
+        
+        .resource-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .resource-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+        
+        .resource-desc {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .resource-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 1rem;
+        }
+        
+        .resource-info {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #999;
+        }
+        
+        .bookmark-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #ddd;
+            transition: all 0.3s;
+        }
+        
+        .bookmark-btn.active {
+            color: #f39c12;
+        }
+
+        /* Featured Section */
+        .featured-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .featured-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(68,129,235,0.3);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            width: 90%;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            .resources-grid { grid-template-columns: 1fr; }
+            .featured-grid { grid-template-columns: 1fr; }
+            .main-container { padding: 0 1rem; }
+            .page-header h1 { font-size: 2rem; }
+            .category-tabs { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>MindPulse</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="mood-tracker.html" class="nav-link"><i class="fas fa-chart-line"></i> Mood Tracker</a></li>
+                <li><a href="appointments.html" class="nav-link"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                <li><a href="#" class="nav-link active"><i class="fas fa-book"></i> Resources</a></li>
+            </ul>
+             <a href="profile.html" style="text-decoration: none;"
+            <div class="nav-user">
+                <div class="user-avatar" style="background: linear-gradient(135deg, #4481eb, #04befe); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">AV</div>
+                <span>Alex</span>
+                <i class="fas fa-chevron-down"></i>
+      
+            </a>
+            </div>
+ 
+    </nav>
+
+    <div class="main-container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1>Mental Health Resources</h1>
+            <p>Explore articles, videos, exercises, and guides to support your mental wellness journey</p>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+            <button class="tab-btn active" onclick="ResourceController.filterByCategory('all')">All</button>
+            <button class="tab-btn" onclick="ResourceController.filterByCategory('meditation')">Meditation</button>
+            <button class="tab-btn" onclick="ResourceController.filterByCategory('stress')">Stress</button>
+            <button class="tab-btn" onclick="ResourceController.filterByCategory('sleep')">Sleep</button>
+            <button class="tab-btn" onclick="ResourceController.filterByCategory('anxiety')">Anxiety</button>
+            <button class="tab-btn" onclick="ResourceController.filterByCategory('relationships')">Relationships</button>
+        </div>
+
+        <!-- Search -->
+        <div class="search-container">
+            <i class="fas fa-search" style="position: absolute; left: 2rem; top: 50%; transform: translateY(-50%); color: #acacac;"></i>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search resources..." onkeyup="ResourceController.searchResources()">
+        </div>
+
+        <!-- Resources Grid -->
+        <div class="resources-grid" id="resourcesGrid">
+            <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Featured Section -->
+        <div class="featured-section">
+            <h2 class="featured-title">⭐ Recommended For You</h2>
+            <div class="featured-grid">
+                <div class="resource-card">
+                    <div class="resource-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="resource-content">
+                        <div class="resource-badge">Meditation</div>
+                        <div class="resource-title">5-Minute Breathing Exercise</div>
+                        <p class="resource-desc">Quick grounding technique for immediate stress relief and anxiety management.</p>
+                        <div class="resource-meta">
+                            <div class="resource-info">
+                                <span><i class="fas fa-clock"></i> 5 min</span>
+                                <span><i class="fas fa-star"></i> 4.8</span>
+                            </div>
+                            <button class="bookmark-btn" onclick="ResourceController.toggleBookmark(event)">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                        <button class="btn-primary" onclick="ResourceController.openResource('5-minute-breathing')">Read More</button>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <div class="resource-content">
+                        <div class="resource-badge">Sleep</div>
+                        <div class="resource-title">Sleep Hygiene Guide</div>
+                        <p class="resource-desc">Complete guide to improve sleep quality with science-backed tips and routines.</p>
+                        <div class="resource-meta">
+                            <div class="resource-info">
+                                <span><i class="fas fa-file-alt"></i> Article</span>
+                                <span><i class="fas fa-star"></i> 4.9</span>
+                            </div>
+                            <button class="bookmark-btn" onclick="ResourceController.toggleBookmark(event)">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                        <button class="btn-primary" onclick="ResourceController.openResource('sleep-guide')">Read More</button>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div class="resource-content">
+                        <div class="resource-badge">Exercise</div>
+                        <div class="resource-title">Yoga for Anxiety Relief</div>
+                        <p class="resource-desc">20-minute beginner-friendly yoga routine designed to calm your nervous system.</p>
+                        <div class="resource-meta">
+                            <div class="resource-info">
+                                <span><i class="fas fa-video"></i> Video</span>
+                                <span><i class="fas fa-star"></i> 4.7</span>
+                            </div>
+                            <button class="bookmark-btn" onclick="ResourceController.toggleBookmark(event)">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                        <button class="btn-primary" onclick="ResourceController.openResource('yoga-anxiety')">Watch</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resource Detail Modal -->
+    <div class="modal" id="resourceModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="ResourceController.closeModal()">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // RESOURCES DATA
+        const allResources = [
+            {
+                id: 1,
+                title: '10-Minute Meditation for Sleep',
+                category: 'meditation',
+                type: 'Video',
+                duration: '10 min',
+                rating: 4.9,
+                emoji: '🧘',
+                description: 'Guided meditation specifically designed to help you fall asleep faster and deeper.',
+                content: 'This 10-minute guided meditation uses calming techniques and binaural beats to help relax your mind and body. Perfect for beginners.'
+            },
+            {
+                id: 2,
+                title: 'Managing Exam Stress',
+                category: 'stress',
+                type: 'Article',
+                duration: '8 min read',
+                rating: 4.8,
+                emoji: '📚',
+                description: 'Practical strategies for student stress during exam periods.',
+                content: 'Learn evidence-based techniques to manage exam stress including time management, study breaks, and relaxation methods.'
+            },
+            {
+                id: 3,
+                title: 'Understanding Anxiety Triggers',
+                category: 'anxiety',
+                type: 'Article',
+                duration: '12 min read',
+                rating: 4.7,
+                emoji: '🔍',
+                description: 'Identify and understand your personal anxiety triggers.',
+                content: 'Deep dive into anxiety triggers, how to identify them, and strategies to manage them effectively.'
+            },
+            {
+                id: 4,
+                title: 'Progressive Muscle Relaxation',
+                category: 'meditation',
+                type: 'Video',
+                duration: '15 min',
+                rating: 4.8,
+                emoji: '💆',
+                description: 'Step-by-step guide to release physical tension through muscle relaxation.',
+                content: 'Learn the PMR technique to systematically relax muscle groups and reduce overall tension.'
+            },
+            {
+                id: 5,
+                title: 'Better Sleep Habits',
+                category: 'sleep',
+                type: 'Article',
+                duration: '10 min read',
+                rating: 4.9,
+                emoji: '😴',
+                description: 'Complete guide to developing healthy sleep habits and routines.',
+                content: 'Science-backed tips for improving sleep quality including bedroom setup, sleep schedule, and pre-sleep routines.'
+            },
+            {
+                id: 6,
+                title: 'Breathing Exercises for Panic',
+                category: 'anxiety',
+                type: 'Video',
+                duration: '5 min',
+                rating: 4.9,
+                emoji: '💨',
+                description: 'Quick techniques to manage panic attacks through breathing.',
+                content: 'Learn the 4-7-8 breathing technique and box breathing to calm panic attacks.'
+            },
+            {
+                id: 7,
+                title: 'Healthy Communication Skills',
+                category: 'relationships',
+                type: 'Article',
+                duration: '15 min read',
+                rating: 4.7,
+                emoji: '💬',
+                description: 'Improve relationships through effective communication.',
+                content: 'Guide to active listening, assertive communication, and conflict resolution.'
+            },
+            {
+                id: 8,
+                title: 'Dealing with Loneliness',
+                category: 'relationships',
+                type: 'Article',
+                duration: '12 min read',
+                rating: 4.6,
+                emoji: '🤝',
+                description: 'Strategies to overcome loneliness and build meaningful connections.',
+                content: 'Understand loneliness, its impacts, and actionable steps to build stronger social connections.'
+            },
+            {
+                id: 9,
+                title: 'Daily Stress Management Routine',
+                category: 'stress',
+                type: 'Video',
+                duration: '20 min',
+                rating: 4.8,
+                emoji: '⏰',
+                description: 'Create an effective daily routine to manage stress.',
+                content: 'Step-by-step routine combining meditation, exercise, and mindfulness for daily stress relief.'
+            }
+        ];
+
+        let filteredResources = [...allResources];
+        let currentCategory = 'all';
+
+        // CONTROLLER
+        const ResourceController = {
+            init() {
+                this.renderResources();
+                this.setupEventListeners();
+            },
+
+            renderResources() {
+                const grid = document.getElementById('resourcesGrid');
+                grid.innerHTML = filteredResources.map(resource => `
+                    <div class="resource-card">
+                        <div class="resource-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            ${resource.emoji}
+                        </div>
+                        <div class="resource-content">
+                            <div class="resource-badge">${resource.category.charAt(0).toUpperCase() + resource.category.slice(1)}</div>
+                            <div class="resource-title">${resource.title}</div>
+                            <p class="resource-desc">${resource.description}</p>
+                            <div class="resource-meta">
+                                <div class="resource-info">
+                                    <span><i class="fas fa-${resource.type === 'Video' ? 'video' : 'file-alt'}"></i> ${resource.type}</span>
+                                    <span><i class="fas fa-clock"></i> ${resource.duration}</span>
+                                    <span><i class="fas fa-star"></i> ${resource.rating}</span>
+                                </div>
+                                <button class="bookmark-btn" onclick="ResourceController.toggleBookmark(event)">
+                                    <i class="far fa-bookmark"></i>
+                                </button>
+                            </div>
+                            <button class="btn-primary" onclick="ResourceController.openResource(${resource.id})">
+                                ${resource.type === 'Video' ? 'Watch Now' : 'Read Now'}
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            },
+
+            filterByCategory(category) {
+                currentCategory = category;
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                
+                if (category === 'all') {
+                    filteredResources = [...allResources];
+                } else {
+                    filteredResources = allResources.filter(r => r.category === category);
+                }
+                this.renderResources();
+            },
+
+            searchResources() {
+                const query = document.getElementById('searchInput').value.toLowerCase();
+                filteredResources = allResources.filter(r =>
+                    r.title.toLowerCase().includes(query) ||
+                    r.description.toLowerCase().includes(query) ||
+                    r.category.toLowerCase().includes(query)
+                );
+                this.renderResources();
+            },
+
+            openResource(id) {
+                const resource = allResources.find(r => r.id === id);
+                if (resource) {
+                    const modal = document.getElementById('resourceModal');
+                    const body = document.getElementById('modalBody');
+                    body.innerHTML = `
+                        <div style="text-align: center; margin-bottom: 2rem;">
+                            <div style="font-size: 4rem; margin-bottom: 1rem;">${resource.emoji}</div>
+                            <h2>${resource.title}</h2>
+                            <p style="color: #666; margin-top: 0.5rem;">${resource.description}</p>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-around; text-align: center;">
+                                <div>
+                                    <div style="font-weight: 700; color: #4481eb; font-size: 1.2rem;">
+                                        ${resource.type}
+                                    </div>
+                                    <div style="color: #666; font-size: 0.9rem;">Type</div>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700; color: #4481eb; font-size: 1.2rem;">
+                                        ${resource.duration}
+                                    </div>
+                                    <div style="color: #666; font-size: 0.9rem;">Duration</div>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700; color: #f39c12; font-size: 1.2rem;">
+                                        ⭐ ${resource.rating}
+                                    </div>
+                                    <div style="color: #666; font-size: 0.9rem;">Rating</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="line-height: 1.8; color: #555; margin-bottom: 2rem;">
+                            ${resource.content}
+                        </div>
+                        <button class="btn-primary" onclick="ResourceController.closeModal()">
+                            Close
+                        </button>
+                    `;
+                    modal.classList.add('active');
+                }
+            },
+
+            closeModal() {
+                document.getElementById('resourceModal').classList.remove('active');
+            },
+
+            toggleBookmark(e) {
+                e.target.closest('.bookmark-btn').classList.toggle('active');
+            },
+
+            setupEventListeners() {
+                document.addEventListener('click', (e) => {
+                    if (e.target.id === 'resourceModal') {
+                        this.closeModal();
+                    }
+                });
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            ResourceController.init();
+        });
+    </script>
+</body>
+</html>
