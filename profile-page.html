@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindPulse - Profile</title>
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, input, textarea, select { font-family: "Poppins", sans-serif; }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4481eb;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+        }
+        
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            background: #f8f9fa;
+            cursor: pointer;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        /* Tabs */
+        .profile-tabs {
+            display: flex;
+            background: white;
+            border-radius: 20px;
+            padding: 0.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            min-width: 120px;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Profile Header */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        .upload-avatar {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+        }
+        
+        .upload-avatar:hover {
+            transform: scale(1.1);
+        }
+        
+        .profile-info h2 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-info p {
+            color: #666;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 2rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #f0f0f0;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #4481eb;
+            box-shadow: 0 0 0 3px rgba(68,129,235,0.1);
+        }
+
+        /* Two Column Form */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(68,129,235,0.3);
+        }
+        
+        .btn-secondary {
+            padding: 1rem 2rem;
+            background: transparent;
+            color: #666;
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .btn-secondary:hover {
+            border-color: #4481eb;
+            color: #4481eb;
+            background: rgba(68,129,235,0.05);
+        }
+        
+        .btn-danger {
+            padding: 1rem 2rem;
+            background: #ffebee;
+            color: #c62828;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .btn-danger:hover {
+            background: #ffcdd2;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Settings List */
+        .settings-list {
+            list-style: none;
+        }
+        
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+        
+        .settings-label {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .settings-label i {
+            font-size: 1.2rem;
+            color: #4481eb;
+            width: 25px;
+        }
+        
+        .settings-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #ddd;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .toggle-switch.active {
+            background: #2ecc71;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .toggle-switch.active .toggle-slider {
+            left: 33px;
+        }
+
+        /* Activity Log */
+        .activity-list {
+            list-style: none;
+        }
+        
+        .activity-item {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4481eb, #04befe);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .activity-text h4 {
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+        
+        .activity-text p {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            .form-row { grid-template-columns: 1fr; }
+            .profile-header { flex-direction: column; text-align: center; }
+            .button-group { flex-direction: column; }
+            .button-group button { width: 100%; }
+            .main-container { padding: 0 1rem; }
+            .page-header h1 { font-size: 2rem; }
+            .tab-content { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>MindPulse</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="mood-tracker.html" class="nav-link"><i class="fas fa-chart-line"></i> Mood Tracker</a></li>
+                <li><a href="appointments.html" class="nav-link"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                <li><a href="resources.html" class="nav-link"><i class="fas fa-book"></i> Resources</a></li>
+            </ul>
+            <div class="nav-user">
+                <div class="user-avatar">AJ</div>
+                <span>Alex Johnson</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1>Profile Settings</h1>
+            <p>Manage your account and personal preferences</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="profile-tabs">
+            <button class="tab-btn active" onclick="ProfileController.switchTab('profile')"><i class="fas fa-user"></i> Profile</button>
+            <button class="tab-btn" onclick="ProfileController.switchTab('security')"><i class="fas fa-lock"></i> Security</button>
+            <button class="tab-btn" onclick="ProfileController.switchTab('preferences')"><i class="fas fa-cog"></i> Preferences</button>
+            <button class="tab-btn" onclick="ProfileController.switchTab('activity')"><i class="fas fa-history"></i> Activity</button>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profileTab" class="tab-content active">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    AJ
+                    <div class="upload-avatar" onclick="document.getElementById('avatarInput').click()">
+                        <i class="fas fa-camera" style="font-size: 1.2rem; color: #4481eb;"></i>
+                    </div>
+                    <input type="file" id="avatarInput" style="display: none;" accept="image/*">
+                </div>
+                <div class="profile-info">
+                    <h2>Alex Johnson</h2>
+                    <p><i class="fas fa-envelope"></i> alex.johnson@email.com</p>
+                    <p><i class="fas fa-phone"></i> +91 9876 543 210</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Bhopal, India</p>
+                    <p style="color: #999; margin-top: 1rem;">Member since January 15, 2024</p>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 2rem; color: #333;">Edit Profile</h3>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-input" value="Alex">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-input" value="Johnson">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" value="alex.johnson@email.com">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" value="+91 9876 543 210">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date of Birth</label>
+                    <input type="date" class="form-input" value="2005-03-15">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Bio</label>
+                <textarea class="form-textarea" rows="4" placeholder="Tell us about yourself...">Computer Science student passionate about mental health and technology.</textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">City</label>
+                    <input type="text" class="form-input" value="Bhopal">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">State</label>
+                    <input type="text" class="form-input" value="Madhya Pradesh">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="ProfileController.saveProfile()">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <button class="btn-secondary" onclick="ProfileController.resetProfile()">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- Security Tab -->
+        <div id="securityTab" class="tab-content">
+            <h3 style="margin-bottom: 2rem; color: #333;">Change Password</h3>
+
+            <div class="form-group">
+                <label class="form-label">Current Password</label>
+                <input type="password" class="form-input" placeholder="Enter your current password">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">New Password</label>
+                <input type="password" class="form-input" placeholder="Enter new password">
+                <small style="color: #999; display: block; margin-top: 0.5rem;">
+                    Password must be at least 8 characters with uppercase, lowercase, number, and special character.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Confirm Password</label>
+                <input type="password" class="form-input" placeholder="Confirm new password">
+            </div>
+
+            <button class="btn-primary" onclick="ProfileController.changePassword()">
+                <i class="fas fa-key"></i> Change Password
+            </button>
+
+            <hr style="margin: 3rem 0; border: none; border-top: 2px solid #f0f0f0;">
+
+            <h3 style="margin-bottom: 2rem; color: #333;">Two-Factor Authentication</h3>
+            
+            <div class="settings-item">
+                <div class="settings-label">
+                    <i class="fas fa-mobile-alt"></i>
+                    <div>
+                        <strong>Authenticator App</strong>
+                        <p class="settings-description">Use an authenticator app for extra security</p>
+                    </div>
+                </div>
+                <div class="toggle-switch" onclick="ProfileController.toggleSetting(event)">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="settings-item">
+                <div class="settings-label">
+                    <i class="fas fa-sms"></i>
+                    <div>
+                        <strong>SMS Verification</strong>
+                        <p class="settings-description">Receive codes via SMS</p>
+                    </div>
+                </div>
+                <div class="toggle-switch active" onclick="ProfileController.toggleSetting(event)">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <hr style="margin: 3rem 0; border: none; border-top: 2px solid #f0f0f0;">
+
+            <h3 style="margin-bottom: 2rem; color: #333;">Active Sessions</h3>
+
+            <div class="settings-item">
+                <div class="settings-label">
+                    <i class="fas fa-laptop"></i>
+                    <div>
+                        <strong>Chrome on Windows</strong>
+                        <p class="settings-description">Last active: 5 minutes ago</p>
+                    </div>
+                </div>
+                <button class="btn-secondary" onclick="alert('Session ended')">End</button>
+            </div>
+
+            <button class="btn-danger" style="margin-top: 2rem; width: 100%;" onclick="ProfileController.logoutAll()">
+                <i class="fas fa-sign-out-alt"></i> Log Out From All Devices
+            </button>
+        </div>
+
+        <!-- Preferences Tab -->
+        <div id="preferencesTab" class="tab-content">
+            <h3 style="margin-bottom: 2rem; color: #333;">Email Notifications</h3>
+
+            <ul class="settings-list">
+                <li class="settings-item">
+                    <div class="settings-label">
+                        <i class="fas fa-bell"></i>
+                        <div>
+                            <strong>Appointment Reminders</strong>
+                            <p class="settings-description">Get notified before your appointments</p>
+                        </div>
+                    </div>
+                    <div class="toggle-switch active" onclick="ProfileController.toggleSetting(event)">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </li>
+
+                <li class="settings-item">
+                    <div class="settings-label">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <strong>Weekly Mood Report</strong>
+                            <p class="settings-description">Summary of your mood trends</p>
+                        </div>
+                    </div>
+                    <div class="toggle-switch active" onclick="ProfileController.toggleSetting(event)">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </li>
+
+                <li class="settings-item">
+                    <div class="settings-label">
+                        <i class="fas fa-lightbulb"></i>
+                        <div>
+                            <strong>New Resources</strong>
+                            <p class="settings-description">Notifications for new mental health resources</p>
+                        </div>
+                    </div>
+                    <div class="toggle-switch" onclick="ProfileController.toggleSetting(event)">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </li>
+
+                <li class="settings-item">
+                    <div class="settings-label">
+                        <i class="fas fa-star"></i>
+                        <div>
+                            <strong>Marketing Emails</strong>
+                            <p class="settings-description">Updates and promotional offers</p>
+                        </div>
+                    </div>
+                    <div class="toggle-switch" onclick="ProfileController.toggleSetting(event)">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </li>
+            </ul>
+
+            <hr style="margin: 3rem 0; border: none; border-top: 2px solid #f0f0f0;">
+
+            <h3 style="margin-bottom: 2rem; color: #333;">Privacy Settings</h3>
+
+            <ul class="settings-list">
+                <li class="settings-item">
+                    <div class="settings-label">
+                        <i class="fas fa-eye"></i>
+                        <div>
+                            <strong>Profile Visibility</strong>
+                            <p class="settings-description">Allow others to see your profile</p>
+                        </div>
+                    </div>
+                    <select class="form-select" style="max-width: 200px;">
+                        <option>Public</option>
+                        <option>Friends Only</option>
+                        <option>Private</option>
+                    </select>
+                </li>
+
+                <li class="settings-item">
+                    <div class="settings-label">
+                        <i class="fas fa-share-alt"></i>
+                        <div>
+                            <strong>Allow Data Sharing</strong>
+                            <p class="settings-description">Share anonymized data for research</p>
+                        </div>
+                    </div>
+                    <div class="toggle-switch active" onclick="ProfileController.toggleSetting(event)">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Activity Tab -->
+        <div id="activityTab" class="tab-content">
+            <h3 style="margin-bottom: 2rem; color: #333;">Recent Activity</h3>
+
+            <ul class="activity-list">
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <div class="activity-text">
+                        <h4>Logged in</h4>
+                        <p>Today at 6:15 PM from Chrome on Windows</p>
+                    </div>
+                </li>
+
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="activity-text">
+                        <h4>Appointment booked</h4>
+                        <p>Yesterday at 2:30 PM with Dr. Sarah Johnson</p>
+                    </div>
+                </li>
+
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="activity-text">
+                        <h4>Mood entry saved</h4>
+                        <p>Yesterday at 11:00 PM - Mood level 7</p>
+                    </div>
+                </li>
+
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="activity-text">
+                        <h4>Profile updated</h4>
+                        <p>2 days ago - Changed email and phone</p>
+                    </div>
+                </li>
+
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <div class="activity-text">
+                        <h4>Password changed</h4>
+                        <p>5 days ago</p>
+                    </div>
+                </li>
+
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <div class="activity-text">
+                        <h4>Account created</h4>
+                        <p>January 15, 2024</p>
+                    </div>
+                </li>
+            </ul>
+
+            <button class="btn-secondary" style="width: 100%; margin-top: 2rem;" onclick="alert('Download started!')">
+                <i class="fas fa-download"></i> Download Activity Log
+            </button>
+        </div>
+
+        <!-- Danger Zone -->
+        <div style="background: #ffebee; border-radius: 20px; padding: 2rem; margin-top: 3rem;">
+            <h3 style="color: #c62828; margin-bottom: 1rem;">
+                <i class="fas fa-exclamation-triangle"></i> Danger Zone
+            </h3>
+            <p style="color: #666; margin-bottom: 2rem;">These actions cannot be undone. Please proceed with caution.</p>
+            <button class="btn-danger" onclick="ProfileController.exportData()">
+                <i class="fas fa-download"></i> Export My Data
+            </button>
+            <button class="btn-danger" style="margin-left: 1rem;" onclick="ProfileController.deleteAccount()">
+                <i class="fas fa-trash"></i> Delete Account
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // PROFILE CONTROLLER
+        const ProfileController = {
+            switchTab(tabName) {
+                // Hide all tabs
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                // Show selected tab
+                document.getElementById(tabName + 'Tab').classList.add('active');
+                event.target.closest('.tab-btn').classList.add('active');
+            },
+
+            saveProfile() {
+                const formData = {
+                    firstName: document.querySelector('input[value="Alex"]').value,
+                    lastName: document.querySelector('input[value="Johnson"]').value,
+                    email: document.querySelector('input[value*="@"]').value,
+                    phone: document.querySelector('input[value*="+91"]').value,
+                    dob: document.querySelector('input[type="date"]').value,
+                    bio: document.querySelector('textarea').value
+                };
+                
+                alert('✅ Profile updated successfully!\n\nReady for servlet: POST /api/user');
+                console.log('Profile ', formData);
+            },
+
+            resetProfile() {
+                alert('Form reset to previous values');
+            },
+
+            changePassword() {
+                alert('✅ Password changed successfully!\n\nReady for servlet: POST /api/user/change-password');
+            },
+
+            toggleSetting(event) {
+                const toggle = event.currentTarget;
+                toggle.classList.toggle('active');
+            },
+
+            logoutAll() {
+                if (confirm('Are you sure you want to log out from all devices?')) {
+                    alert('✅ Logged out from all devices');
+                }
+            },
+
+            exportData() {
+                alert('✅ Exporting your data...\n\nYour data will be sent to your email as a ZIP file');
+            },
+
+            deleteAccount() {
+                if (confirm('This will permanently delete your account and all data. Are you sure?')) {
+                    if (confirm('Type "DELETE" to confirm account deletion')) {
+                        alert('Account deletion requested. You will receive a confirmation email.');
+                    }
+                }
+            }
+        };
+
+        // Avatar upload
+        document.getElementById('avatarInput')?.addEventListener('change', function() {
+            alert('✅ Avatar uploaded successfully!');
+        });
+    </script>
+</body>
+</html>
